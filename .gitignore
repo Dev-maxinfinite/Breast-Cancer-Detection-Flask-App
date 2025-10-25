@@ -1,0 +1,35 @@
+# Virtual environments
+venv/
+breast_env/
+myenv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+
+# Model files (agar large hain to)
+models/*.pkl
+*.pkl
+*.joblib
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/

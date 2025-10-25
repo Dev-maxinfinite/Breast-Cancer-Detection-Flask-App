@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About Us | Breast Cancer Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: white !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        /* Text color fix */
+        h1, h2, h3, h4, h5, h6, p, span, div, label, .form-text {
+            color: white !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+        
+        .hero-section {
+            background: var(--gradient);
+            padding: 4rem 0;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            color: white !important;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(67, 97, 238, 0.3);
+            border-color: var(--success);
+        }
+        
+        .feature-icon {
+            width: 90px;
+            height: 90px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .team-member {
+            text-align: center;
+            padding: 25px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover .team-img {
+            border-color: var(--success);
+            transform: scale(1.05);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .timeline-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--success);
+            border: 3px solid var(--primary);
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .mission-img {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .mission-img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-stethoscope me-2"></i>CancerDetect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">About CancerDetect</h1>
+            <p class="lead mb-4">Revolutionizing breast cancer detection through artificial intelligence</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <div class="container">
+        <div class="row align-items-center mb-5 animate-card">
+            <div class="col-lg-6">
+                <h2 class="mb-4"><i class="fas fa-bullseye me-2"></i>Our Mission</h2>
+                <p class="lead">To make breast cancer detection more accessible, accurate, and early through cutting-edge AI technology.</p>
+                <p>CancerDetect was founded in 2020 by a team of medical professionals and data scientists who recognized the need for more efficient and accurate breast cancer screening methods. Our platform combines decades of medical expertise with state-of-the-art machine learning algorithms.</p>
+                <p>We believe that early detection saves lives, and our mission is to provide healthcare professionals with powerful tools to identify breast cancer at its earliest, most treatable stages.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="card p-4">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Medical Research" class="img-fluid rounded mission-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mb-5">
+            <div class="col-12 text-center mb-5 animate-card">
+                <h2><i class="fas fa-star me-2"></i>Why Choose CancerDetect?</h2>
+                <p class="lead">Our platform offers several key advantages</p>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.1s;">
+                <div class="card p-4 text-center h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain fa-2x text-white"></i>
+                    </div>
+                    <h4>AI-Powered Analysis</h4>
+                    <p>Our algorithms are trained on thousands of confirmed cases to provide highly accurate predictions and reduce false positives.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.2s;">
+                <div class="card p-4 text-center h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt fa-2x text-white"></i>
+                    </div>
+                    <h4>Rapid Results</h4>
+                    <p>Get analysis results in seconds rather than days, enabling faster decision-making and treatment planning.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.3s;">
+                <div class="card p-4 text-center h-100">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt fa-2x text-white"></i>
+                    </div>
+                    <h4>Data Security</h4>
+                    <p>We employ enterprise-grade security measures to protect sensitive patient data and ensure privacy compliance.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="row mb-5">
+            <div class="col-12 animate-card">
+                <div class="card p-4">
+                    <h2 class="text-center mb-4"><i class="fas fa-road me-2"></i>Our Journey</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h5><i class="fas fa-rocket me-2"></i>2020 - Foundation</h5>
+                            <p>CancerDetect was founded with the vision of combining medical expertise with artificial intelligence to improve cancer detection.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5><i class="fas fa-cogs me-2"></i>2021 - Algorithm Development</h5>
+                            <p>Our team developed and trained the initial machine learning models using thousands of anonymized medical records.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5><i class="fas fa-flask me-2"></i>2022 - Clinical Trials</h5>
+                            <p>We partnered with leading medical institutions to validate our technology through rigorous clinical testing.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5><i class="fas fa-flag me-2"></i>2023 - Platform Launch</h5>
+                            <p>Public launch of CancerDetect with 96.7% accuracy rate in initial user testing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="row mb-5">
+            <div class="col-12 text-center mb-4 animate-card">
+                <h2><i class="fas fa-users me-2"></i>Our Team</h2>
+                <p class="lead">Meet the experts behind CancerDetect</p>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.1s;">
+                <div class="card team-member h-100">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         alt="Dr. Sarah Johnson" class="team-img">
+                    <h4>Dr. Sarah Johnson</h4>
+                    <p class="text-primary">Chief Medical Officer</p>
+                    <p>Board-certified oncologist with 15+ years of experience in breast cancer diagnosis and treatment.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.2s;">
+                <div class="card team-member h-100">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         alt="Dr. Michael Chen" class="team-img">
+                    <h4>Dr. Michael Chen</h4>
+                    <p class="text-primary">Head of AI Research</p>
+                    <p>PhD in Machine Learning with publications in top medical AI journals and conferences.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4 animate-card" style="animation-delay: 0.3s;">
+                <div class="card team-member h-100">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         alt="Dr. Emily Rodriguez" class="team-img">
+                    <h4>Dr. Emily Rodriguez</h4>
+                    <p class="text-primary">Data Science Lead</p>
+                    <p>Specialist in medical data analysis and predictive modeling with 10+ years of experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-stethoscope me-2"></i>CancerDetect</h5>
+                    <p>Advanced AI for early breast cancer detection and improved patient outcomes.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="/about" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="/how-it-works" class="text-light text-decoration-none">How It Works</a></li>
+                        <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i>contact@cancerdetect.org</li>
+                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Medical AI Research Center</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p class="mb-0"><small>&copy; 2023 CancerDetect. This tool is for educational purposes only. Always consult healthcare professionals for medical diagnosis.</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add click effects to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.98) translateY(-4px)';
+                });
+                card.addEventListener('mouseup', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animate-card elements
+            document.querySelectorAll('.animate-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

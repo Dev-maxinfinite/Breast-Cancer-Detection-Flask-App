@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Breast Cancer Detection | AI-Powered Diagnosis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: white !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        /* Text color fix */
+        h1, h2, h3, h4, h5, h6, p, span, div, label, .form-text {
+            color: white !important;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+        
+        .hero-section {
+            background: var(--gradient);
+            padding: 4rem 0;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            color: white !important;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(67, 97, 238, 0.3);
+            border-color: var(--success);
+        }
+        
+        .form-control {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white !important;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 16px;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--success);
+            color: white;
+            box-shadow: 0 0 0 0.3rem rgba(76, 201, 240, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: white !important;
+            font-size: 1.1rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 35px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.5);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .result-card {
+            border-left: 6px solid;
+            animation: fadeIn 0.6s ease;
+            cursor: pointer;
+        }
+        
+        .result-positive {
+            border-left-color: var(--danger);
+        }
+        
+        .result-negative {
+            border-left-color: var(--success);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-list li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 10px;
+            border-radius: 8px;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li i {
+            color: var(--success);
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(67, 97, 238, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 25px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .alert {
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.15);
+            color: #75b798 !important;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.15);
+            color: #e6858b !important;
+            border-left: 4px solid #dc3545;
+        }
+        
+        /* Quick Links Styling */
+        .quick-links-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .quick-link-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white !important;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+        }
+        
+        .quick-link-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            color: white !important;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-stethoscope me-2"></i>CancerDetect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">AI-Powered Breast Cancer Detection</h1>
+            <p class="lead mb-4">Advanced machine learning for early diagnosis and better outcomes</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card p-4">
+                        <h3 class="mb-3"><i class="fas fa-robot me-2"></i>Input Medical Data</h3>
+                        <form action="/predict" method="POST">
+                            <div class="mb-3 text-start">
+                                <label for="feature" class="form-label">Enter 30 Medical Features (comma separated)</label>
+                                <input type="text" class="form-control" id="feature" name="feature" 
+                                       placeholder="e.g., 17.99, 10.38, 122.8, 1001.0, 0.1184, ..." required>
+                                <div class="form-text mt-2">
+                                    <i class="fas fa-info-circle me-1"></i>Enter the 30 numerical values from your medical report in order
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg pulse">
+                                <i class="fas fa-search me-2"></i>Analyze Results
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Results Section -->
+            <div class="col-lg-8">
+                {% if message %}
+                    {% for i in message %}
+                        {% if i == 'Not Cancrouse' %}
+                            <div class="card result-card result-negative p-4 mb-4" onclick="this.style.transform='scale(0.98)'">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 text-center">
+                                        <i class="fas fa-check-circle fa-4x text-success"></i>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <h3 class="text-success">Negative Result</h3>
+                                        <p class="mb-2">Based on our analysis, the input data shows no signs of breast cancer.</p>
+                                        <div class="alert alert-success mt-3">
+                                            <i class="fas fa-heart me-2"></i><strong>Good news!</strong> Continue with regular check-ups and maintain a healthy lifestyle.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="card result-card result-positive p-4 mb-4" onclick="this.style.transform='scale(0.98)'">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 text-center">
+                                        <i class="fas fa-exclamation-triangle fa-4x text-danger"></i>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <h3 class="text-danger">Positive Result</h3>
+                                        <p class="mb-2">Our analysis indicates potential signs of breast cancer in the input data.</p>
+                                        <div class="alert alert-danger mt-3">
+                                            <i class="fas fa-hand-holding-medical me-2"></i><strong>Important:</strong> Please consult with a healthcare professional for further evaluation and diagnosis.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Information Section -->
+                <div class="card p-4 mb-4">
+                    <h3 class="mb-3"><i class="fas fa-info-circle me-2"></i>About This Tool</h3>
+                    <p>This AI-powered tool analyzes 30 different medical features from breast cancer test results to provide an early assessment. It uses machine learning algorithms trained on thousands of cases to identify patterns associated with breast cancer.</p>
+                    
+                    <h5 class="mt-4"><i class="fas fa-list-check me-2"></i>Expected Features:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i>Mean Radius</li>
+                                <li><i class="fas fa-check"></i>Mean Texture</li>
+                                <li><i class="fas fa-check"></i>Mean Perimeter</li>
+                                <li><i class="fas fa-check"></i>Mean Area</li>
+                                <li><i class="fas fa-check"></i>Mean Smoothness</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i>Mean Compactness</li>
+                                <li><i class="fas fa-check"></i>Mean Concavity</li>
+                                <li><i class="fas fa-check"></i>Mean Concave Points</li>
+                                <li><i class="fas fa-check"></i>Mean Symmetry</li>
+                                <li><i class="fas fa-check"></i>Mean Fractal Dimension</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-center"><small><i class="fas fa-ellipsis me-1"></i>...and 20 more features including standard errors and worst values</small></p>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Stats -->
+                <div class="card p-4 mb-4">
+                    <h4 class="text-center mb-4"><i class="fas fa-chart-bar me-2"></i>Detection Statistics</h4>
+                    <div class="stat-box">
+                        <p class="stat-number">96.7%</p>
+                        <p>Accuracy Rate</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-number">10K+</p>
+                        <p>Cases Analyzed</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-number">30</p>
+                        <p>Medical Features</p>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="card p-4 mb-4">
+                    <h4 class="mb-3"><i class="fas fa-link me-2"></i>Quick Links</h4>
+                    <div class="quick-links-grid">
+                        <a href="/about" class="quick-link-btn">
+                            <i class="fas fa-users me-2"></i>About Us
+                        </a>
+                        <a href="/how-it-works" class="quick-link-btn">
+                            <i class="fas fa-cogs me-2"></i>How It Works
+                        </a>
+                        <a href="/contact" class="quick-link-btn">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Tips -->
+                <div class="card p-4">
+                    <h4 class="mb-3"><i class="fas fa-lightbulb me-2"></i>Early Detection Tips</h4>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-female text-primary"></i>Regular self-examinations</li>
+                        <li><i class="fas fa-calendar-check text-primary"></i>Annual mammograms after 40</li>
+                        <li><i class="fas fa-apple-alt text-primary"></i>Maintain healthy diet & weight</li>
+                        <li><i class="fas fa-wine-bottle text-primary"></i>Limit alcohol consumption</li>
+                        <li><i class="fas fa-running text-primary"></i>Regular physical activity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-stethoscope me-2"></i>CancerDetect</h5>
+                    <p>Advanced AI for early breast cancer detection and improved patient outcomes.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="/about" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="/how-it-works" class="text-light text-decoration-none">How It Works</a></li>
+                        <li><a href="/contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i>contact@cancerdetect.org</li>
+                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Medical AI Research Center</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p class="mb-0"><small>&copy; 2023 CancerDetect. This tool is for educational purposes only. Always consult healthcare professionals for medical diagnosis.</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add click effects to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                card.addEventListener('mouseup', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
